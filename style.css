@@ -1,0 +1,48 @@
+
+canvas {
+  display: block;
+}
+
+html, body {
+  margin: 25px;
+  background-color: #ce3635;
+  font-family: Helvetica, sans-serif, sans-serif;
+  font-size: 14px;
+}
+
+h1 {
+  font-size: 130px;
+  font-weight: normal;
+  margin-top: 5px;
+  color: rgb(255, 255, 255)
+}
+
+p {
+  font-size: 30px;
+  font-weight: normal;
+  text-align: justify;
+  margin-top: 0px;
+  margin-bottom: 100px;
+  color: rgb(255, 255, 255)
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  display: inline-block; 
+}
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 30px;
+  width: 100%;
+  color: white;
+  text-align: center;
+}
