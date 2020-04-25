@@ -8,7 +8,9 @@ let poseLabel
 
 
 function setup() {
-  createCanvas(640, 480);
+  var canvas = createCanvas(640, 480);
+  canvas.parent('sketch-holder');
+  canvas.position(300, 500);
   video = createCapture(VIDEO);
   video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
