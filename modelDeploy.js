@@ -9,7 +9,7 @@ let poseLabel
 
 function setup() {
   var canvas = createCanvas(640, 480);
-  canvas.position(0, 500);
+  canvas.position(50, 150);
   video = createCapture(VIDEO);
   video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
