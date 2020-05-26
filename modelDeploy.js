@@ -2,6 +2,8 @@ let video;
 let poseNet;
 let pose;
 let skeleton;
+let thirtysecs;
+let posesArray = ['Moutain', 'Tree', 'Downward Dog', 'Warrior II'];
 
 let yogi;
 let poseLabel
@@ -9,24 +11,27 @@ let poseLabel
 
 function setup() {
   var canvas = createCanvas(640, 480);
-  canvas.position(50, 150);
+  canvas.position(130, 210);
   video = createCapture(VIDEO);
   video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
-  poseNet.on('pose', gotPoses);
-
+  var i;
+  for (i = 0; i < posesArray.length; i++){
+   document.getElementById("poses").textContent = posesArray[i];
+  }
+  
   let options = {
     inputs: 34,
-    outputs: 4,
+    outputs: 6,
     task: 'classification',
     debug: true
   }
   
   yogi = ml5.neuralNetwork(options);
   const modelInfo = {
-    model: 'model/model.json',
-    metadata: 'model/model_meta.json',
-    weights: 'model/model.weights.bin',
+    model: 'modelv2/model2.json',
+    metadata: 'modelv2/model_meta2.json',
+    weights: 'modelv2/model.weights2.bin',
   };
   yogi.load(modelInfo, yogiLoaded);
 }
@@ -47,24 +52,30 @@ function classifyPose(){
     }
     yogi.classify(inputs, gotResult);
   } else {
-    setTimeout(classifyPose, 100);
+    setTimeout(classifyPose, 1000);
   }
 }
 
 function gotResult(error, results) {
   if (results[0].confidence > 0.70) {
-    if (results[0].label == "m"){
-    poseLabel = "Mountain";
-    }else{
-      if(results[0].label == "t"){
-        poseLabel = "Tree";
+    if (results[0].label == "1"){
+      poseLabel = "Mountain";
       }else{
-      if(results[0].label == "d"){
-        poseLabel = "Downward Dog";
-      }else{
-        poseLabel = "Warrior II";
-      }}}}
-  classifyPose();
+        if(results[0].label == "2"){
+          poseLabel = "Tree";
+        }else{
+        if(results[0].label == "3"){
+          poseLabel = "Downward Dog";
+        }else{
+        if(results[0].label == "4"){
+          poseLabel = "Warrior 1";
+        }else{
+        if(results[0].label == "5"){
+          poseLabel = "Warrior 2";
+        }else{
+          poseLabel = "Chair";
+        }}}}}}
+  startTimer(thirtysecs, display);
 }
 
 
@@ -119,12 +130,11 @@ function startTimer(duration, display) {
 
       if (--timer < 0) {
           timer = duration;
+          classifyPose();
       }
   }, 1000);
 }
 
 window.onload = function () {
-  var thirtysecs = 60 * 0.5,
-      display = document.querySelector('#time');
-  startTimer(thirtysecs, display);
+  thirtysecs = 60 * 0.5, display = document.querySelector('#time');
 };
