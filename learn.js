@@ -3,10 +3,14 @@ let poseNet;
 let pose;
 let skeleton;
 let thirtysecs;
-let posesArray = ['Mountain', 'Tree', 'Downward Dog', 'Warrior II'];
+let posesArray = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'Chair'];
 
 let yogi;
-let poseLabel
+let poseLabel;
+
+var errorCounter = 0;
+var iterationCounter = 0;
+var poseCounter = 0;
 
 
 function setup() {
@@ -16,10 +20,6 @@ function setup() {
   video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
-  
-  for (var i = 0; i < posesArray.length; i++){
-   document.getElementById("poses").textContent = posesArray[i];
-  }
   
   let options = {
     inputs: 34,
@@ -53,28 +53,30 @@ function classifyPose(){
     }
     yogi.classify(inputs, gotResult);
   } else {
-    setTimeout(classifyPose, 1000);
+    setTimeout(classifyPose, 100);
   }
 }
 
 function gotResult(error, results) {
   if (results[0].confidence > 0.70) {
-    if (results[0].label == "1"){
-      poseLabel = "Mountain";
-      }else if(results[0].label == "2"){
-          poseLabel = "Tree";
-        }else if(results[0].label == "3"){
-          poseLabel = "Downward Dog";
-        }else if(results[0].label == "4"){
-          poseLabel = "Warrior 1";
-        }else if(results[0].label == "5"){
-          poseLabel = "Warrior 2";
+    if (results[0].label == posesArray[poseCounter]){
+        startTimer(thirtysecs, display);
+        errorCounter = 0;
+        iterationCounter = iterationCounter + 1;
+        if (iterationCounter >= 30){
+            setTimeout(nextPose, 1000);
         }else{
-          poseLabel = "Chair";
-        }}
-  //startTimer(thirtysecs, display);
+            errorCounter = errorCounter + 1;
+            if (errorCounter >= 2){
+                startTimer(thirtysecs, display);
+                iterationCounter = 0;
+                errorCounter = 0;
+                setTimeout(classifyPose, 1000);
+            }
+        }
+    }
   classifyPose();
-}
+}}
 
 
 function gotPoses(poses) {
@@ -136,3 +138,10 @@ function startTimer(duration, display) {
 window.onload = function () {
   thirtysecs = 60 * 0.5, display = document.querySelector('#time');
 };
+
+function nextPose(){
+  poseCounter = poseCounter + 1;
+  //if statement to check if all poses have been done
+  document.getElementById("poses").textContent = posesArray[poseCounter];
+  classifyPose();
+}
