@@ -40,7 +40,9 @@ function setup() {
 }
   
 function yogiLoaded(){
-  console.log("Model ready!")
+  console.log("Model ready!");
+  console.log("FUCK OYOU FOR NOT WROKIGN");
+  document.getElementById("poseName").textContent = "Mountain";
   classifyPose();
 }
 
@@ -138,7 +140,7 @@ function startTimer(duration, display) {
 }
 
 window.onload = function () {
-  thirtysecs = 60 * 0.5, display = document.querySelector('#time');
+  thirtysecs = 60 * 0.5, display = document.querySelector('#time');  
 };
 
 function nextPose(){

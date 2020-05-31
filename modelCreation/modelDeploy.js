@@ -17,10 +17,6 @@ function setup() {
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
   
-  for (var i = 0; i < posesArray.length; i++){
-   document.getElementById("poses").textContent = posesArray[i];
-  }
-  
   let options = {
     inputs: 34,
     outputs: 6,
@@ -36,11 +32,12 @@ function setup() {
   };
   yogi.load(modelInfo, yogiLoaded);
 }
-  
+
 function yogiLoaded(){
-  console.log("Model ready!")
+  console.log("Model ready!");
   classifyPose();
 }
+
 
 function classifyPose(){
   if (pose) {
