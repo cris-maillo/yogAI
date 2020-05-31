@@ -11,6 +11,7 @@ let poseLabel;
 var errorCounter = 0;
 var iterationCounter = 0;
 var poseCounter = 0;
+var target;
 
 
 function setup() {
@@ -20,6 +21,7 @@ function setup() {
   video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
+  target = posesArray[0];
   
   let options = {
     inputs: 34,
@@ -59,7 +61,7 @@ function classifyPose(){
 
 function gotResult(error, results) {
   if (results[0].confidence > 0.70) {
-    if (results[0].label == posesArray[poseCounter]){
+    if (results[0].label == poseCounter - 1){
         startTimer(thirtysecs, display);
         errorCounter = 0;
         iterationCounter = iterationCounter + 1;
