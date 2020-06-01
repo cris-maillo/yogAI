@@ -8,9 +8,10 @@ let posesArray = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II',
 let yogi;
 let poseLabel;
 
-var errorCounter = 0;
-var iterationCounter = 0;
-var poseCounter = 0;
+var targetLabel;
+var errorCounter;
+var iterationCounter;
+var poseCounter;
 var target;
 
 
@@ -21,7 +22,16 @@ function setup() {
   video.hide();
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
-  target = posesArray[0];
+
+  console.log("Upddsszd!!!");
+  
+  poseCounter = 0;
+  targetLabel = 1;
+  target = posesArray[poseCounter];
+  document.getElementById("poseName").textContent = target;
+  errorCounter = 0;
+  iterationCounter = 0;
+  
   
   let options = {
     inputs: 34,
@@ -41,8 +51,6 @@ function setup() {
   
 function yogiLoaded(){
   console.log("Model ready!");
-  console.log("FUCK OYOU FOR NOT WROKIGN");
-  document.getElementById("poseName").textContent = "Mountain";
   classifyPose();
 }
 
@@ -57,27 +65,32 @@ function classifyPose(){
     }
     yogi.classify(inputs, gotResult);
   } else {
+    console.log("Pose not found");
     setTimeout(classifyPose, 100);
   }
 }
 
 function gotResult(error, results) {
   if (results[0].confidence > 0.70) {
-    if (results[0].label == poseCounter - 1){
-        startTimer(thirtysecs, display);
+    if (results[0].label == targetLabel.toString()){
         errorCounter = 0;
+        console.log(targetLabel);
+        //start timer
         iterationCounter = iterationCounter + 1;
         if (iterationCounter >= 30){
+            iterationCounter = 0;
             setTimeout(nextPose, 1000);
         }else{
-            errorCounter = errorCounter + 1;
-            if (errorCounter >= 2){
-                startTimer(thirtysecs, display);
-                iterationCounter = 0;
-                errorCounter = 0;
-                setTimeout(classifyPose, 1000);
-            }
+          console.log("no u stupid btich");
+          errorCounter = errorCounter + 1;
+          if (errorCounter >= 2){
+              iterationCounter = 0;
+              errorCounter = 0;
+              setTimeout(classifyPose, 1000);
+          }
         }
+    }else{
+      console.log("fuck u");
     }
   classifyPose();
 }}
@@ -110,15 +123,6 @@ function draw() {
     }
   }
   pop();
-
-  fill(255, 0, 255);
-  noStroke();
-  if (poseLabel == "Downward Dog"){
-    textSize(90);
-  }else{
-  textSize(150);}
-  textAlign(CENTER, CENTER);
-  text(poseLabel, width / 2, height / 2);
 }
 
 function startTimer(duration, display) {
@@ -144,8 +148,15 @@ window.onload = function () {
 };
 
 function nextPose(){
-  poseCounter = poseCounter + 1;
-  //if statement to check if all poses have been done
-  document.getElementById("poses").textContent = posesArray[poseCounter];
-  classifyPose();
+  if (poseCounter >= 5) {
+    console.log("Well done, you have learnt all poses!")
+    //congratulations something do sometjing
+  }else{
+    iterationCounter = 0;
+    poseCounter = poseCounter + 1;
+    targetLabel = poseCounter;
+    console.log("next pose target lable" + targetLabel)
+    target = posesArray[poseCounter];
+    document.getElementById("poseName").textContent = target;
+    classifyPose();}
 }
