@@ -14,6 +14,7 @@ var iterationCounter;
 var poseCounter;
 var target;
 
+var timeLeft;
 
 function setup() {
   var canvas = createCanvas(640, 480);
@@ -23,15 +24,16 @@ function setup() {
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
 
-  console.log("Upddsszd!!!");
+  console.log("Uzssd!!!");
   
   poseCounter = 0;
   targetLabel = 1;
   target = posesArray[poseCounter];
   document.getElementById("poseName").textContent = target;
+  timeLeft = 10;
+  document.getElementById("time").textContent = "00:" + timeLeft;
   errorCounter = 0;
-  iterationCounter = 0;
-  
+  iterationCounter = 0; 
   
   let options = {
     inputs: 34,
@@ -72,27 +74,35 @@ function classifyPose(){
 
 function gotResult(error, results) {
   if (results[0].confidence > 0.70) {
+    console.log("Confidence");
     if (results[0].label == targetLabel.toString()){
+      console.log(targetLabel);
+      iterationCounter = iterationCounter + 1;
+      console.log(iterationCounter)
+      if (iterationCounter == 10) {
+        console.log("30!")
+        iterationCounter = 0;
+        nextPose();}
+      else{
+        console.log("doin this")
+        timeLeft = timeLeft - 1;
+        document.getElementById("time").textContent = "00:" + timeLeft;
+        setTimeout(classifyPose, 1000);}}
+    else{
+      errorCounter = errorCounter + 1;
+      console.log("error");
+      if (errorCounter >= 4){
+        console.log("four errors");
+        iterationCounter = 0;
+        timeLeft = 10;
         errorCounter = 0;
-        console.log(targetLabel);
-        //start timer
-        iterationCounter = iterationCounter + 1;
-        if (iterationCounter >= 30){
-            iterationCounter = 0;
-            setTimeout(nextPose, 1000);
-        }else{
-          console.log("no u stupid btich");
-          errorCounter = errorCounter + 1;
-          if (errorCounter >= 2){
-              iterationCounter = 0;
-              errorCounter = 0;
-              setTimeout(classifyPose, 1000);
-          }
-        }
-    }else{
-      console.log("fuck u");
-    }
-  classifyPose();
+        setTimeout(classifyPose, 100);
+      }else{
+        setTimeout(classifyPose, 100);
+      }}}
+  else{
+    console.log("whatwe really dont want")
+    setTimeout(classifyPose, 100);
 }}
 
 
@@ -125,38 +135,20 @@ function draw() {
   pop();
 }
 
-function startTimer(duration, display) {
-  var timer = duration, minutes, seconds;
-  setInterval(function () {
-      minutes = parseInt(timer / 60, 10);
-      seconds = parseInt(timer % 60, 10);
-
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-
-      display.textContent = minutes + ":" + seconds;
-
-      if (--timer < 0) {
-          timer = duration;
-          //classifyPose();
-      }
-  }, 1000);
-}
-
-window.onload = function () {
-  thirtysecs = 60 * 0.5, display = document.querySelector('#time');  
-};
-
 function nextPose(){
   if (poseCounter >= 5) {
     console.log("Well done, you have learnt all poses!")
     //congratulations something do sometjing
   }else{
+    errorCounter = 0;
     iterationCounter = 0;
     poseCounter = poseCounter + 1;
-    targetLabel = poseCounter;
-    console.log("next pose target lable" + targetLabel)
+    targetLabel = poseCounter + 1;
+    console.log("next pose target label" + targetLabel)
     target = posesArray[poseCounter];
     document.getElementById("poseName").textContent = target;
+    console.log("classifying again");
+    timeLeft = 10;
+    document.getElementById("time").textContent = "00:" + timeLeft;
     classifyPose();}
 }
