@@ -86,7 +86,10 @@ function gotResult(error, results) {
       else{
         console.log("doin this")
         timeLeft = timeLeft - 1;
-        document.getElementById("time").textContent = "00:" + timeLeft;
+        if (timeLeft < 10){
+          document.getElementById("time").textContent = "00:0" + timeLeft;
+        }else{
+        document.getElementById("time").textContent = "00:" + timeLeft;}
         setTimeout(classifyPose, 1000);}}
     else{
       errorCounter = errorCounter + 1;

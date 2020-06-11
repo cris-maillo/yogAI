@@ -104,6 +104,11 @@ indexbutton{
 
 }
 
+indexbutton:hover{
+  border: 4px solid #FFFFFF;
+  box-sizing: border-box;
+}
+
 .buttons {
   display: flex;
   justify-content: space-between;
