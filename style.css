@@ -63,7 +63,17 @@ p {
   text-align: justify;
   margin-top: 0px;
   margin-bottom: 100px;
-  color: rgb(255, 255, 255)
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  letter-spacing: -0.05em;
+  left:99px; 
+
+  color: #FFFFFF;
+
+  background: rgba(87, 73, 174, 0.37);
 }
 
 a {
@@ -113,3 +123,48 @@ indexbutton:hover{
   display: flex;
   justify-content: space-between;
 }
+
+.parent {
+  width:730px;
+  height:120px;
+  position: absolute;
+  top:170px; 
+  left:770px;
+  text-align: center;
+  align-content: center;
+}
+ 
+.child {
+  position: absolute;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -90px);
+}
+
+.stars {
+  visibility: hidden;
+  left: 840px; 
+  bottom:0px; 
+  position:absolute; 
+  width: 188px; 
+  height: 210px; 
+  z-index: 0;
+}
+
+.stars.animated {
+  visibility: visible;
+  overflow: auto;
+  left: 840px; 
+  position:absolute;
+  bottom:0px;
+  animation: fadein 1.5s ease;
+  
+}
+/*
+@keyframes fadein {
+  0%   {bottom: -220px;}
+  25%  {bottom: -100px;}
+  50%  {bottom: 0px;}
+  75%  {bottom: -100px;}
+  100% {bottom: -220px;}
+}*/

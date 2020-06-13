@@ -140,9 +140,12 @@ function draw() {
 
 function nextPose(){
   if (poseCounter >= 5) {
-    console.log("Well done, you have learnt all poses!")
+    console.log("Well done, you have learnt all poses!");
     //congratulations something do sometjing
   }else{
+    console.log("Well done, you all poses!");
+    var stars = document.getElementById("starsid");
+    stars.classList.add("stars.animated");
     errorCounter = 0;
     iterationCounter = 0;
     poseCounter = poseCounter + 1;
@@ -153,5 +156,5 @@ function nextPose(){
     console.log("classifying again");
     timeLeft = 10;
     document.getElementById("time").textContent = "00:" + timeLeft;
-    classifyPose();}
+    setTimeout(classifyPose, 4000)}
 }
