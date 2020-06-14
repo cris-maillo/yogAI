@@ -4,6 +4,9 @@ let pose;
 let skeleton;
 let thirtysecs;
 let posesArray = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'Chair'];
+var imgArray = new Array();
+
+var poseImage;
 
 let yogi;
 let poseLabel;
@@ -24,7 +27,18 @@ function setup() {
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
 
-  console.log("Uzssd!!!");
+  imgArray[0] = new Image();
+  imgArray[0].src = 'imgs/mountain.svg';
+  imgArray[1] = new Image();
+  imgArray[1].src = 'imgs/tree.svg';
+  imgArray[2] = new Image();
+  imgArray[2].src = 'imgs/dog.svg';
+  imgArray[3] = new Image();
+  imgArray[3].src = 'imgs/warrior1.svg';
+  imgArray[4] = new Image();
+  imgArray[4].src = 'imgs/warrior2.svg';
+  imgArray[5] = new Image();
+  imgArray[5].src = 'imgs/chair.svg';
   
   poseCounter = 0;
   targetLabel = 1;
@@ -33,7 +47,8 @@ function setup() {
   timeLeft = 10;
   document.getElementById("time").textContent = "00:" + timeLeft;
   errorCounter = 0;
-  iterationCounter = 0; 
+  iterationCounter = 0;
+  document.getElementById("poseImg").src = imgArray[poseCounter].src;
   
   let options = {
     inputs: 34,
@@ -73,6 +88,8 @@ function classifyPose(){
 }
 
 function gotResult(error, results) {
+  document.getElementById("welldone").textContent = "";
+  document.getElementById("sparkles").style.display = "none";
   if (results[0].confidence > 0.70) {
     console.log("Confidence");
     if (results[0].label == targetLabel.toString()){
@@ -98,6 +115,10 @@ function gotResult(error, results) {
         console.log("four errors");
         iterationCounter = 0;
         timeLeft = 10;
+        if (timeLeft < 10){
+          document.getElementById("time").textContent = "00:0" + timeLeft;
+        }else{
+        document.getElementById("time").textContent = "00:" + timeLeft;}
         errorCounter = 0;
         setTimeout(classifyPose, 100);
       }else{
@@ -141,11 +162,13 @@ function draw() {
 function nextPose(){
   if (poseCounter >= 5) {
     console.log("Well done, you have learnt all poses!");
-    //congratulations something do sometjing
+    document.getElementById("finish").textContent = "Amazing!";
+    document.getElementById("welldone").textContent = "All poses done.";
+    document.getElementById("sparkles").style.display = 'block';
   }else{
     console.log("Well done, you all poses!");
-    var stars = document.getElementById("starsid");
-    stars.classList.add("stars.animated");
+    //var stars = document.getElementById("starsid");
+    //stars.classList.add("stars.animated");
     errorCounter = 0;
     iterationCounter = 0;
     poseCounter = poseCounter + 1;
@@ -153,6 +176,9 @@ function nextPose(){
     console.log("next pose target label" + targetLabel)
     target = posesArray[poseCounter];
     document.getElementById("poseName").textContent = target;
+    document.getElementById("welldone").textContent = "Well done, next pose!";
+    document.getElementById("sparkles").style.display = 'block';
+    document.getElementById("poseImg").src = imgArray[poseCounter].src;
     console.log("classifying again");
     timeLeft = 10;
     document.getElementById("time").textContent = "00:" + timeLeft;
