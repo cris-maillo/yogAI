@@ -2,9 +2,7 @@ let video;
 let poseNet;
 let pose;
 let skeleton;
-let thirtysecs;
 let posesArray = ['Mountain', 'Tree', 'Downward Dog', 'Warrior I', 'Warrior II', 'Chair'];
-var imgArray = new Array();
 
 var poseImage;
 
@@ -27,24 +25,11 @@ function setup() {
   poseNet = ml5.poseNet(video, modelLoaded);
   poseNet.on('pose', gotPoses);
 
-  imgArray[0] = new Image();
-  imgArray[0].src = 'imgs/mountain.svg';
-  imgArray[1] = new Image();
-  imgArray[1].src = 'imgs/tree.svg';
-  imgArray[2] = new Image();
-  imgArray[2].src = 'imgs/dog.svg';
-  imgArray[3] = new Image();
-  imgArray[3].src = 'imgs/warrior1.svg';
-  imgArray[4] = new Image();
-  imgArray[4].src = 'imgs/warrior2.svg';
-  imgArray[5] = new Image();
-  imgArray[5].src = 'imgs/chair.svg';
-  
   poseCounter = 0;
   targetLabel = 1;
   target = posesArray[poseCounter];
   document.getElementById("poseName").textContent = target;
-  timeLeft = 10;
+  timeLeft = 30;
   document.getElementById("time").textContent = "00:" + timeLeft;
   errorCounter = 0;
   iterationCounter = 0;
@@ -98,7 +83,7 @@ function gotResult(error, results) {
 
       console.log(iterationCounter)
       
-      if (iterationCounter == 10) {
+      if (iterationCounter == 30) {
         console.log("30!")
         iterationCounter = 0;
         nextPose();}
@@ -116,7 +101,7 @@ function gotResult(error, results) {
       if (errorCounter >= 4){
         console.log("four errors");
         iterationCounter = 0;
-        timeLeft = 10;
+        timeLeft = 30;
         if (timeLeft < 10){
           document.getElementById("time").textContent = "00:0" + timeLeft;
         }else{
@@ -181,9 +166,8 @@ function nextPose(){
     document.getElementById("poseName").textContent = target;
     document.getElementById("welldone").textContent = "Well done, next pose!";
     document.getElementById("sparkles").style.display = 'block';
-    document.getElementById("poseImg").src = imgArray[poseCounter].src;
     console.log("classifying again");
-    timeLeft = 10;
+    timeLeft = 30;
     document.getElementById("time").textContent = "00:" + timeLeft;
     setTimeout(classifyPose, 4000)}
 }
