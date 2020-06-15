@@ -33,7 +33,6 @@ function setup() {
   document.getElementById("time").textContent = "00:" + timeLeft;
   errorCounter = 0;
   iterationCounter = 0;
-  document.getElementById("poseImg").src = imgArray[poseCounter].src;
   
   let options = {
     inputs: 34,
