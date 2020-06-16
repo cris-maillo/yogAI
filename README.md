@@ -1,6 +1,6 @@
 # <a href="https://cris-maillo.github.io/yogAI/" target="_blank" title="yogAI">yogAI</a> 
 
-![yogi](https://github.com/cris-maillo/yogAI/tree/master/imgs/allow.png)
+![yogAI](https://user-images.githubusercontent.com/62070358/84757544-30766780-afbc-11ea-8fee-0df8133af3c4.png)
 
 ### Hey there! 
 ### Welcome to yogAI, developed in 2020 by Cristina Maillo.
