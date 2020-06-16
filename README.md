@@ -5,7 +5,7 @@ I created yogAI inspired by various Machine Learning models for visual recogniti
 
 Link to website: <a href="https://cris-maillo.github.io/yogAI/" target="_blank" title="yogAI">yogAI</a> 
 
-![yogAI](https://user-images.githubusercontent.com/62070358/84757544-30766780-afbc-11ea-8fee-0df8133af3c4.png)
+![yogaAI](https://user-images.githubusercontent.com/62070358/84757963-bbeff880-afbc-11ea-9203-fe945a4cd09c.png)
 
 ### Icons used:
 
